@@ -4,6 +4,7 @@ namespace ChatTool.Server
     using System;
     using System.Runtime.InteropServices;
     using ChatTool.Server.Applibs;
+    using Microsoft.Owin.Hosting;
 
     class Program
     {
@@ -32,23 +33,28 @@ namespace ChatTool.Server
 
         static void Main(string[] args)
         {
-            // 監聽APP關閉事件
-            SetConsoleCtrlHandler(t =>
+            using (WebApp.Start(ConfigHelper.ServiceUrl))
+            using (WebApp.Start(ConfigHelper.SignalrServiceUrl))
             {
+
+                // 監聽APP關閉事件
+                SetConsoleCtrlHandler(t =>
+                {
+                    ChatToolServer.ProcessStop();
+                    return false;
+                },
+                true);
+
+                DisbleQuickEditMode();
+
+                ChatToolServer.ProcessStart();
+
+                while (Console.ReadLine().ToLower() != "exit")
+                {
+                }
+
                 ChatToolServer.ProcessStop();
-                return false;
-            },
-            true);
-
-            DisbleQuickEditMode();
-
-            ChatToolServer.ProcessStart();
-
-            while (Console.ReadLine().ToLower() != "exit")
-            {
             }
-
-            ChatToolServer.ProcessStop();
         }
 
         /// <summary>

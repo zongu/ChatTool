@@ -1,16 +1,13 @@
 ﻿
-namespace ChatTool.Domain.Action
+namespace ChatTool.Domain.Model
 {
-    using ChatTool.Domain.Model;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// 登入結果
     /// </summary>
-    public class LoginResultAction : ActionBase
+    public class LoginResultDto
     {
-        public override string Action()
-            => "LoginResult";
-
         /// <summary>
         /// 登入成功
         /// </summary>
@@ -25,5 +22,12 @@ namespace ChatTool.Domain.Action
         /// 錯誤訊息
         /// </summary>
         public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+            => JsonConvert.SerializeObject(this);
     }
 }

@@ -21,7 +21,7 @@ namespace ChatTool.Domain.Model
         /// <summary>
         /// User Id
         /// </summary>
-        public Guid UserInfoId { get; set; }
+        public Guid? UserInfoId { get; set; }
 
         /// <summary>
         /// 暱稱
