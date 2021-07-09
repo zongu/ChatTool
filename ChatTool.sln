@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.Persistent", "Chat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.Persistent.Tests", "ChatTool.Persistent.Tests\ChatTool.Persistent.Tests.csproj", "{CEB589EC-6F1A-44D1-9918-41A4111A91C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.Server", "ChatTool.Server\ChatTool.Server.csproj", "{0B5FF593-8EC6-4CFB-BF5F-06C34B778E26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.Server.Tests", "ChatTool.Server.Tests\ChatTool.Server.Tests.csproj", "{93DCF9CE-B085-4EA9-A2CA-5C7DC416CF98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{CEB589EC-6F1A-44D1-9918-41A4111A91C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEB589EC-6F1A-44D1-9918-41A4111A91C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEB589EC-6F1A-44D1-9918-41A4111A91C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B5FF593-8EC6-4CFB-BF5F-06C34B778E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B5FF593-8EC6-4CFB-BF5F-06C34B778E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B5FF593-8EC6-4CFB-BF5F-06C34B778E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B5FF593-8EC6-4CFB-BF5F-06C34B778E26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93DCF9CE-B085-4EA9-A2CA-5C7DC416CF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93DCF9CE-B085-4EA9-A2CA-5C7DC416CF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93DCF9CE-B085-4EA9-A2CA-5C7DC416CF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93DCF9CE-B085-4EA9-A2CA-5C7DC416CF98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
