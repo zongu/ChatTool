@@ -25,6 +25,7 @@ namespace ChatTool.UI
 
                 if (lobby.ShowDialog() == DialogResult.OK)
                 {
+                    main.IsAdmin = lobby.IsAdmin;
                     main.ShowDialog();
                 }
             }

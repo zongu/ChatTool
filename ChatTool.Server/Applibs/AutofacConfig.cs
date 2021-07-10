@@ -6,6 +6,7 @@ namespace ChatTool.Server.Applibs
     using Autofac.Integration.WebApi;
     using ChatTool.Domain.Repository;
     using ChatTool.Persistent;
+    using ChatTool.Server.Hubs;
     using ChatTool.Server.Model;
 
     /// <summary>
@@ -49,6 +50,10 @@ namespace ChatTool.Server.Applibs
 
             builder.RegisterType<UserInfoRepository>()
                 .As<IUserInfoRepository>()
+                .SingleInstance();
+
+            builder.RegisterType<HubClient>()
+                .As<IHubClient>()
                 .SingleInstance();
 
             container = builder.Build();

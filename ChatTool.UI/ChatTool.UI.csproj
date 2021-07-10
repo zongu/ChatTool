@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionHandler\BroadCastChatMessageActionHandler.cs" />
+    <Compile Include="ActionHandler\BroadCastLogoutActionHandler.cs" />
     <Compile Include="Applibs\AutofacConfig.cs" />
     <Compile Include="Applibs\ConfigHelper.cs" />
     <Compile Include="Forms\Lobby.cs">
@@ -101,6 +102,12 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserInfoList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserInfoList.Designer.cs">
+      <DependentUpon>UserInfoList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\IActionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserInfoList.resx">
+      <DependentUpon>UserInfoList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

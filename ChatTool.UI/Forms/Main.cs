@@ -2,7 +2,6 @@
 namespace ChatTool.UI.Forms
 {
     using System;
-    using System.Text;
     using System.Windows.Forms;
     using Autofac;
     using ChatTool.Domain.Action;
@@ -33,11 +32,6 @@ namespace ChatTool.UI.Forms
         private ILogger logger = LogManager.GetLogger("ChatToolUI");
 
         /// <summary>
-        /// 聊天室內容
-        /// </summary>
-        private StringBuilder sb = new StringBuilder();
-
-        /// <summary>
         /// svc
         /// </summary>
         private IUserInfoService svc;
@@ -60,7 +54,7 @@ namespace ChatTool.UI.Forms
             this.timer.Interval = 500;
             this.timer.Tick += (object sender, EventArgs e) =>
             {
-                this.ChangeLoginStatus();
+                this.ChangeStatus();
             };
         }
 
@@ -76,17 +70,8 @@ namespace ChatTool.UI.Forms
         /// <param name="message"></param>
         public void ChatMessageAppend(BroadCastChatMessageAction message)
         {
-            if (this.User != null)
+            if (IsAdmin || this.User != null)
             {
-                // 太長砍掉
-                if (this.sb.Length > 99999)
-                {
-                    this.sb.Clear();
-                }
-
-                this.sb.Append($"{message.NickName}-{message.CreateDateTime.ToString("HH:mm:ss")}:{message.Message}");
-                this.sb.AppendLine();
-
                 this.UpdateMessage($"{message.NickName}-{message.CreateDateTime.ToString("HH:mm:ss")}:{message.Message}");
             }
         }
@@ -110,6 +95,9 @@ namespace ChatTool.UI.Forms
                     case "btnSend":
                         this.SendMessage();
                         break;
+                    case "btnUserInfoList":
+                        this.ShowUserInfoList();
+                        break;
                     default:
                         MessageBox.Show("無效的選項");
                         break;
@@ -125,31 +113,56 @@ namespace ChatTool.UI.Forms
         /// <summary>
         /// 切換登入狀態
         /// </summary>
-        private void ChangeLoginStatus()
+        private void ChangeStatus()
         {
             var hubStatus =
                 this.hubClient.State == ConnectionState.Connecting ? "連接中" :
                 this.hubClient.State == ConnectionState.Reconnecting ? "重連中" :
                 this.hubClient.State == ConnectionState.Connected ? "已連接" : "未連接";
 
-            var loginStatus = this.User != null ? "已登入" : "未登入";
+            var loginStatus =
+                IsAdmin ? "管理員" :
+                this.User != null ? "已登入" : "未登入";
 
             this.tbStatus.Text = $"{hubStatus}-{loginStatus}";
 
-            if (this.User == null || this.hubClient.State != ConnectionState.Connected)
+            if (this.hubClient.State == ConnectionState.Connected)
             {
-                this.User = null;
-                this.tbNickName.Enabled = true;
-                this.btnLogin.Enabled = true;
-                this.tbSendMessage.Enabled = false;
-                this.btnSend.Enabled = false;
+                if (IsAdmin)
+                {
+                    this.User = null;
+                    this.tbNickName.Enabled = false;
+                    this.btnLogin.Enabled = false;
+                    this.tbSendMessage.Enabled = true;
+                    this.btnSend.Enabled = true;
+                    this.btnUserInfoList.Visible = true;
+                }
+                else if (User == null)
+                {
+                    this.User = null;
+                    this.tbNickName.Enabled = true;
+                    this.btnLogin.Enabled = true;
+                    this.tbSendMessage.Enabled = false;
+                    this.btnSend.Enabled = false;
+                    this.btnUserInfoList.Visible = false;
+                }
+                else
+                {
+                    this.tbNickName.Enabled = false;
+                    this.btnLogin.Enabled = false;
+                    this.tbSendMessage.Enabled = true;
+                    this.btnSend.Enabled = true;
+                    this.btnUserInfoList.Visible = false;
+                }
             }
             else
             {
+                this.User = null;
                 this.tbNickName.Enabled = false;
                 this.btnLogin.Enabled = false;
-                this.tbSendMessage.Enabled = true;
-                this.btnSend.Enabled = true;
+                this.tbSendMessage.Enabled = false;
+                this.btnSend.Enabled = false;
+                this.btnUserInfoList.Visible = false;
             }
         }
 
@@ -160,6 +173,7 @@ namespace ChatTool.UI.Forms
         /// <param name="e"></param>
         private void Main_Shown(object sender, EventArgs e)
         {
+            this.ChangeStatus();
             this.timer.Start();
             this.hubClient.StartAsync();
         }
@@ -232,7 +246,7 @@ namespace ChatTool.UI.Forms
         private void SendMessage()
         {
 
-            if (this.User == null)
+            if (!IsAdmin && this.User == null)
             {
                 MessageBox.Show("請先登入!");
                 return;
@@ -246,12 +260,24 @@ namespace ChatTool.UI.Forms
 
             this.hubClient.SendAction(new SendChatMessageAction()
             {
-                NickName = this.User.NickName,
+                NickName = IsAdmin ? "管理員" : this.User.NickName,
                 Message = this.tbSendMessage.Text,
                 CreateDateTime = DateTime.Now
             });
 
             this.tbSendMessage.Clear();
+        }
+
+        /// <summary>
+        /// 展開使用者列表
+        /// </summary>
+        private void ShowUserInfoList()
+        {
+            using (var scope = AutofacConfig.Container.BeginLifetimeScope())
+            {
+                var userInfoList = scope.Resolve<UserInfoList>();
+                userInfoList.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -272,6 +298,32 @@ namespace ChatTool.UI.Forms
                 }
 
                 this.tbMessage.AppendText($"{text}\r\n");
+            }
+        }
+
+        /// <summary>
+        /// 畫面關閉觸發
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                if (User != null)
+                {
+                    var logoutResult = this.svc.Logout(User.NickName);
+
+                    if (logoutResult != null)
+                    {
+                        throw logoutResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, $"{this.GetType().Name} Main_FormClosed Exception");
+                MessageBox.Show(ex.Message);
             }
         }
     }

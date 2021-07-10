@@ -9,6 +9,11 @@ namespace ChatTool.UI.Forms
     {
         private ILogger logger = LogManager.GetLogger("ChatToolUI");
 
+        /// <summary>
+        /// 是否為管理者
+        /// </summary>
+        public bool IsAdmin = false;
+
         public Lobby()
         {
             InitializeComponent();
@@ -30,7 +35,12 @@ namespace ChatTool.UI.Forms
                 switch (btn.Name)
                 {
                     case "btnBackend":
+                        IsAdmin = true;
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                        break;
                     case "btnFrontend":
+                        IsAdmin = false;
                         this.DialogResult = DialogResult.OK;
                         this.Close();
                         break;

@@ -71,6 +71,9 @@ namespace ChatTool.UI.Applibs
             builder.RegisterType<Lobby>()
                 .SingleInstance();
 
+            builder.RegisterType<UserInfoList>()
+                .SingleInstance();
+
             container = builder.Build();
         }
     }

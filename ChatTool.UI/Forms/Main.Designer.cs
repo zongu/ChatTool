@@ -38,6 +38,7 @@ namespace ChatTool.UI.Forms
             this.btnLogin = new System.Windows.Forms.Button();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.tbStatus = new System.Windows.Forms.TextBox();
+            this.btnUserInfoList = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.tbMessage = new System.Windows.Forms.TextBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
@@ -61,6 +62,7 @@ namespace ChatTool.UI.Forms
             this.splitContainer6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
             this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
             this.splitContainer7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -183,6 +185,10 @@ namespace ChatTool.UI.Forms
             // splitContainer7.Panel1
             // 
             this.splitContainer7.Panel1.Controls.Add(this.tbStatus);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.btnUserInfoList);
             this.splitContainer7.Size = new System.Drawing.Size(330, 35);
             this.splitContainer7.SplitterDistance = 202;
             this.splitContainer7.TabIndex = 0;
@@ -196,6 +202,18 @@ namespace ChatTool.UI.Forms
             this.tbStatus.Name = "tbStatus";
             this.tbStatus.Size = new System.Drawing.Size(202, 33);
             this.tbStatus.TabIndex = 0;
+            // 
+            // btnUserInfoList
+            // 
+            this.btnUserInfoList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnUserInfoList.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnUserInfoList.Location = new System.Drawing.Point(0, 0);
+            this.btnUserInfoList.Name = "btnUserInfoList";
+            this.btnUserInfoList.Size = new System.Drawing.Size(124, 35);
+            this.btnUserInfoList.TabIndex = 0;
+            this.btnUserInfoList.Text = "使用者列表";
+            this.btnUserInfoList.UseVisualStyleBackColor = true;
+            this.btnUserInfoList.Click += new System.EventHandler(this.ButtonOnClick);
             // 
             // splitContainer3
             // 
@@ -272,6 +290,7 @@ namespace ChatTool.UI.Forms
             this.Controls.Add(this.splitContainer1);
             this.Name = "Main";
             this.Text = "Main";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Main_FormClosed);
             this.Shown += new System.EventHandler(this.Main_Shown);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -293,6 +312,7 @@ namespace ChatTool.UI.Forms
             this.splitContainer6.ResumeLayout(false);
             this.splitContainer7.Panel1.ResumeLayout(false);
             this.splitContainer7.Panel1.PerformLayout();
+            this.splitContainer7.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
             this.splitContainer7.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
@@ -324,5 +344,6 @@ namespace ChatTool.UI.Forms
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.SplitContainer splitContainer7;
         private System.Windows.Forms.TextBox tbStatus;
+        private System.Windows.Forms.Button btnUserInfoList;
     }
 }

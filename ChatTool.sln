@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.Server.Tests", "Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.UI", "ChatTool.UI\ChatTool.UI.csproj", "{0F1421CA-E647-459E-92D6-54EFAF878307}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatTool.UI.Tests", "ChatTool.UI.Tests\ChatTool.UI.Tests.csproj", "{36DD2973-5883-45E2-A5A6-AE32939C71CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{0F1421CA-E647-459E-92D6-54EFAF878307}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F1421CA-E647-459E-92D6-54EFAF878307}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1421CA-E647-459E-92D6-54EFAF878307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36DD2973-5883-45E2-A5A6-AE32939C71CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DD2973-5883-45E2-A5A6-AE32939C71CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DD2973-5883-45E2-A5A6-AE32939C71CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DD2973-5883-45E2-A5A6-AE32939C71CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
