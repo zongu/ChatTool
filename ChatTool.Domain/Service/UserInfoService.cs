@@ -2,6 +2,7 @@
 namespace ChatTool.Domain.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
     using ChatTool.Domain.Model;
@@ -32,6 +33,30 @@ namespace ChatTool.Domain.Service
         }
 
         /// <summary>
+        /// 取得使用者資訊
+        /// </summary>
+        /// <returns></returns>
+        public (Exception exception, IEnumerable<UserInfo> userInfos) Get()
+        {
+            try
+            {
+                var response = this.client.GetAsync(this.route).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                }
+
+                var result = response.Content.ReadAsStringAsync().Result;
+                return (null, JsonConvert.DeserializeObject<IEnumerable<UserInfo>>(result));
+            }
+            catch (Exception ex)
+            {
+                return (ex, null);
+            }
+        }
+
+        /// <summary>
         /// 登入
         /// </summary>
         /// <param name="request"></param>
@@ -54,6 +79,30 @@ namespace ChatTool.Domain.Service
             catch (Exception ex)
             {
                 return (ex, null);
+            }
+        }
+
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <param name="nickName"></param>
+        /// <returns></returns>
+        public Exception Logout(string nickName)
+        {
+            try
+            {
+                var response = this.client.DeleteAsync($"{this.route}?nickName={nickName}").Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
             }
         }
     }

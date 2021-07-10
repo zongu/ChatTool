@@ -155,12 +155,12 @@ namespace ChatTool.UI.Forms
             // 
             this.tbNickName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbNickName.Enabled = false;
-            this.tbNickName.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbNickName.Font = new System.Drawing.Font("宋体", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbNickName.Location = new System.Drawing.Point(0, 0);
-            this.tbNickName.Multiline = true;
             this.tbNickName.Name = "tbNickName";
-            this.tbNickName.Size = new System.Drawing.Size(118, 35);
+            this.tbNickName.Size = new System.Drawing.Size(118, 33);
             this.tbNickName.TabIndex = 0;
+            this.tbNickName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextOnEnter);
             // 
             // btnLogin
             // 
@@ -184,18 +184,17 @@ namespace ChatTool.UI.Forms
             // 
             this.splitContainer7.Panel1.Controls.Add(this.tbStatus);
             this.splitContainer7.Size = new System.Drawing.Size(330, 35);
-            this.splitContainer7.SplitterDistance = 132;
+            this.splitContainer7.SplitterDistance = 202;
             this.splitContainer7.TabIndex = 0;
             // 
             // tbStatus
             // 
             this.tbStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbStatus.Enabled = false;
-            this.tbStatus.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbStatus.Font = new System.Drawing.Font("宋体", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbStatus.Location = new System.Drawing.Point(0, 0);
-            this.tbStatus.Multiline = true;
             this.tbStatus.Name = "tbStatus";
-            this.tbStatus.Size = new System.Drawing.Size(132, 35);
+            this.tbStatus.Size = new System.Drawing.Size(202, 33);
             this.tbStatus.TabIndex = 0;
             // 
             // splitContainer3
@@ -213,7 +212,7 @@ namespace ChatTool.UI.Forms
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer3.Size = new System.Drawing.Size(584, 322);
-            this.splitContainer3.SplitterDistance = 277;
+            this.splitContainer3.SplitterDistance = 280;
             this.splitContainer3.TabIndex = 0;
             // 
             // tbMessage
@@ -223,7 +222,7 @@ namespace ChatTool.UI.Forms
             this.tbMessage.Multiline = true;
             this.tbMessage.Name = "tbMessage";
             this.tbMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbMessage.Size = new System.Drawing.Size(584, 277);
+            this.tbMessage.Size = new System.Drawing.Size(584, 280);
             this.tbMessage.TabIndex = 0;
             // 
             // splitContainer4
@@ -239,19 +238,19 @@ namespace ChatTool.UI.Forms
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.btnSend);
-            this.splitContainer4.Size = new System.Drawing.Size(584, 41);
+            this.splitContainer4.Size = new System.Drawing.Size(584, 38);
             this.splitContainer4.SplitterDistance = 468;
             this.splitContainer4.TabIndex = 0;
             // 
             // tbSendMessage
             // 
             this.tbSendMessage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSendMessage.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbSendMessage.Font = new System.Drawing.Font("宋体", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbSendMessage.Location = new System.Drawing.Point(0, 0);
-            this.tbSendMessage.Multiline = true;
             this.tbSendMessage.Name = "tbSendMessage";
-            this.tbSendMessage.Size = new System.Drawing.Size(468, 41);
+            this.tbSendMessage.Size = new System.Drawing.Size(468, 33);
             this.tbSendMessage.TabIndex = 0;
+            this.tbSendMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextOnEnter);
             // 
             // btnSend
             // 
@@ -259,7 +258,7 @@ namespace ChatTool.UI.Forms
             this.btnSend.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnSend.Location = new System.Drawing.Point(0, 0);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(112, 41);
+            this.btnSend.Size = new System.Drawing.Size(112, 38);
             this.btnSend.TabIndex = 0;
             this.btnSend.Text = "送出";
             this.btnSend.UseVisualStyleBackColor = true;

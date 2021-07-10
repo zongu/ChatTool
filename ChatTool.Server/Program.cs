@@ -34,7 +34,6 @@ namespace ChatTool.Server
         static void Main(string[] args)
         {
             using (WebApp.Start(ConfigHelper.ServiceUrl))
-            using (WebApp.Start(ConfigHelper.SignalrServiceUrl))
             {
 
                 // 監聽APP關閉事件

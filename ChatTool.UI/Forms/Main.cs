@@ -25,23 +25,17 @@ namespace ChatTool.UI.Forms
         /// </summary>
         public UserInfo User = null;
 
-        private ILogger logger = LogManager.GetLogger("ChatToolUI");
-
         /// <summary>
-        /// 委派傳遞字串
+        /// hub client
         /// </summary>
-        /// <param name="text"></param>
-        private delegate void SafeCallDelegate(string text);
+        private IHubClient hubClient;
+
+        private ILogger logger = LogManager.GetLogger("ChatToolUI");
 
         /// <summary>
         /// 聊天室內容
         /// </summary>
         private StringBuilder sb = new StringBuilder();
-
-        /// <summary>
-        /// hub client
-        /// </summary>
-        private IHubClient hubClient;
 
         /// <summary>
         /// svc
@@ -71,6 +65,12 @@ namespace ChatTool.UI.Forms
         }
 
         /// <summary>
+        /// 委派傳遞字串
+        /// </summary>
+        /// <param name="text"></param>
+        private delegate void SafeCallDelegate(string text);
+
+        /// <summary>
         /// 加入聊天訊息
         /// </summary>
         /// <param name="message"></param>
@@ -96,7 +96,7 @@ namespace ChatTool.UI.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ButtonOnClick(object sender, EventArgs e)
+        private void ButtonOnClick(object sender, EventArgs e)
         {
             try
             {
@@ -105,58 +105,10 @@ namespace ChatTool.UI.Forms
                 switch (btn.Name)
                 {
                     case "btnLogin":
-
-                        if (this.hubClient.State != ConnectionState.Connected)
-                        {
-                            MessageBox.Show("請先確認有連上伺服器!");
-                            return;
-                        }
-
-                        if (string.IsNullOrEmpty(this.tbNickName.Text))
-                        {
-                            MessageBox.Show("請輸入暱稱!");
-                            return;
-                        }
-
-                        var loginResult = this.svc.Login(new LoginDto() { NickName = this.tbNickName.Text });
-
-                        if (loginResult.exception != null)
-                        {
-                            throw loginResult.exception;
-                        }
-
-                        if (!loginResult.response.Success)
-                        {
-                            MessageBox.Show(loginResult.response.ErrorMessage);
-                            return;
-                        }
-
-                        this.User = loginResult.response.UserInfo;
-
+                        this.Login();
                         break;
                     case "btnSend":
-
-                        if (this.User == null)
-                        {
-                            MessageBox.Show("請先登入!");
-                            return;
-                        }
-
-                        if (string.IsNullOrEmpty(this.tbSendMessage.Text))
-                        {
-                            MessageBox.Show("請輸入訊息!");
-                            return;
-                        }
-
-                        this.hubClient.SendAction(new SendChatMessageAction()
-                        {
-                            NickName = this.User.NickName,
-                            Message = this.tbSendMessage.Text,
-                            CreateDateTime = DateTime.Now
-                        });
-
-                        this.tbSendMessage.Clear();
-
+                        this.SendMessage();
                         break;
                     default:
                         MessageBox.Show("無效的選項");
@@ -202,6 +154,107 @@ namespace ChatTool.UI.Forms
         }
 
         /// <summary>
+        /// 畫面展開時觸發
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Main_Shown(object sender, EventArgs e)
+        {
+            this.timer.Start();
+            this.hubClient.StartAsync();
+        }
+
+        private void TextOnEnter(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter && sender.GetType() == typeof(TextBox))
+            {
+                try
+                {
+                    var btn = (TextBox)sender;
+
+                    switch (btn.Name)
+                    {
+                        case "tbNickName":
+                            this.Login();
+                            break;
+                        case "tbSendMessage":
+                            this.SendMessage();
+                            break;
+                        default:
+                            MessageBox.Show("無效的選項");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.logger.Error(ex, $"{this.GetType().Name} TextOnEnter Exception");
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 登入
+        /// </summary>
+        private void Login()
+        {
+            if (this.hubClient.State != ConnectionState.Connected)
+            {
+                MessageBox.Show("請先確認有連上伺服器!");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.tbNickName.Text))
+            {
+                MessageBox.Show("請輸入暱稱!");
+                return;
+            }
+
+            var loginResult = this.svc.Login(new LoginDto() { NickName = this.tbNickName.Text });
+
+            if (loginResult.exception != null)
+            {
+                throw loginResult.exception;
+            }
+
+            if (!loginResult.response.Success)
+            {
+                MessageBox.Show(loginResult.response.ErrorMessage);
+                return;
+            }
+
+            this.User = loginResult.response.UserInfo;
+        }
+
+        /// <summary>
+        /// 發送訊息
+        /// </summary>
+        private void SendMessage()
+        {
+
+            if (this.User == null)
+            {
+                MessageBox.Show("請先登入!");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.tbSendMessage.Text))
+            {
+                MessageBox.Show("請輸入訊息!");
+                return;
+            }
+
+            this.hubClient.SendAction(new SendChatMessageAction()
+            {
+                NickName = this.User.NickName,
+                Message = this.tbSendMessage.Text,
+                CreateDateTime = DateTime.Now
+            });
+
+            this.tbSendMessage.Clear();
+        }
+
+        /// <summary>
         /// 更新聊天訊息
         /// </summary>
         /// <param name="text"></param>
@@ -213,24 +266,13 @@ namespace ChatTool.UI.Forms
             }
             else
             {
-                if(this.tbMessage.TextLength > 9999)
+                if (this.tbMessage.TextLength > 9999)
                 {
                     this.tbMessage.Clear();
                 }
 
                 this.tbMessage.AppendText($"{text}\r\n");
             }
-        }
-
-        /// <summary>
-        /// 畫面展開時觸發
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Main_Shown(object sender, EventArgs e)
-        {
-            this.timer.Start();
-            this.hubClient.StartAsync();
         }
     }
 }

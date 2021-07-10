@@ -5,8 +5,11 @@ namespace ChatTool.Server.Controllers
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using ChatTool.Domain.Action;
     using ChatTool.Domain.Model;
     using ChatTool.Domain.Repository;
+    using ChatTool.Server.Hubs;
+    using Newtonsoft.Json;
     using NLog;
 
     /// <summary>
@@ -21,9 +24,42 @@ namespace ChatTool.Server.Controllers
         /// </summary>
         private IUserInfoRepository repo;
 
-        public UserInfoController(IUserInfoRepository repo)
+        /// <summary>
+        /// 長連接服務
+        /// </summary>
+        private IHubClient hubClinet;
+
+        public UserInfoController(IUserInfoRepository repo, IHubClient hubClinet)
         {
             this.repo = repo;
+            this.hubClinet = hubClinet;
+        }
+
+        /// <summary>
+        /// 取得使用者資料
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                var getResult = this.repo.GetAll();
+
+                if(getResult.exception != null)
+                {
+                    throw getResult.exception;
+                }
+
+                var result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new StringContent(JsonConvert.SerializeObject(getResult.userInfos));
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, $"{this.GetType().Name} Get Exception");
+                return this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         /// <summary>
@@ -68,6 +104,37 @@ namespace ChatTool.Server.Controllers
             catch (Exception ex)
             {
                 this.logger.Error(ex, $"{this.GetType().Name} Login Exception");
+                return this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+        }
+        
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public HttpResponseMessage Logout([FromUri]string nickName)
+        {
+            try
+            {
+                var logoutResult = this.repo.LogOut(nickName);
+
+                if(logoutResult != null)
+                {
+                    throw logoutResult;
+                }
+
+                this.hubClinet.BroadCastAction(new BroadCastLogoutAction()
+                {
+                    NickName = nickName
+                });
+
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, $"{this.GetType().Name} Logout Exception");
                 return this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
         }

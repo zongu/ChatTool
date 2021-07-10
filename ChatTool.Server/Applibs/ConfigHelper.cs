@@ -13,14 +13,5 @@ namespace ChatTool.Server.Applibs
         {
             get => $"http://*:9001";
         }
-
-        /// <summary>
-        /// Signalr主服務URL
-        /// </summary>
-        public static string SignalrServiceUrl
-        {
-            get
-                => $"http://*:8001";
-        }
     }
 }

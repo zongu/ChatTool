@@ -26,8 +26,8 @@ namespace ChatTool.Domain.Repository
         /// <summary>
         /// 登出
         /// </summary>
-        /// <param name="userInfoId"></param>
+        /// <param name="nickName"></param>
         /// <returns></returns>
-        Exception LogOut(Guid userInfoId);
+        Exception LogOut(string nickName);
     }
 }

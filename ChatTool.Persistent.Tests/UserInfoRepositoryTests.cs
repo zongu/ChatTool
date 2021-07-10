@@ -92,7 +92,7 @@ namespace ChatTool.Persistent.Tests
             Assert.IsNotNull(getResult.userInfos);
             Assert.AreEqual(getResult.userInfos.Count(), 2);
 
-            var logoutResult = this.repo.LogOut(userInfo.UserInfoId);
+            var logoutResult = this.repo.LogOut(userInfo.NickName);
 
             Assert.IsNull(logoutResult);
 
@@ -102,9 +102,9 @@ namespace ChatTool.Persistent.Tests
             Assert.IsNotNull(getResult.userInfos);
             Assert.AreEqual(getResult.userInfos.Count(), 1);
 
-            var logoutFailResult = this.repo.LogOut(Guid.NewGuid());
+            var logoutFailResult = this.repo.LogOut(string.Empty);
 
-            Assert.IsNotNull(logoutFailResult);
+            Assert.IsNull(logoutFailResult);
 
             getResult = this.repo.GetAll();
 

@@ -14,7 +14,7 @@ namespace ChatTool.UI.Applibs
         /// <summary>
         /// Signalr 連結網址
         /// </summary>
-        public static string SignalrUrl = "http://localhost:8001/signalr";
+        public static string SignalrUrl = "http://localhost:9001/signalr";
 
         /// <summary>
         /// Signalr hub name

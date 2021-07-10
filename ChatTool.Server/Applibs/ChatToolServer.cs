@@ -50,7 +50,6 @@ namespace ChatTool.Server.Applibs
         {
             Console.Clear();
             Console.WriteLine($"Listen On:{ConfigHelper.ServiceUrl}");
-            Console.WriteLine($"Listen On:{ConfigHelper.SignalrServiceUrl}");
 
             using (var scope = AutofacConfig.Container.BeginLifetimeScope())
             {

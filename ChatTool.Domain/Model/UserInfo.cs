@@ -12,16 +12,10 @@ namespace ChatTool.Domain.Model
         {
             return new UserInfo()
             {
-                UserInfoId = Guid.NewGuid(),
                 NickName = NickName,
                 CreateDateTime = DateTime.Now
             };
         }
-
-        /// <summary>
-        /// User Id
-        /// </summary>
-        public Guid? UserInfoId { get; set; }
 
         /// <summary>
         /// 暱稱

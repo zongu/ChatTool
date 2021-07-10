@@ -59,22 +59,20 @@ namespace ChatTool.Persistent
         /// <summary>
         /// 登出
         /// </summary>
-        /// <param name="userInfoId"></param>
+        /// <param name="nickName"></param>
         /// <returns></returns>
-        public Exception LogOut(Guid userInfoId)
+        public Exception LogOut(string nickName)
         {
             try
             {
                 lock (this._lck)
                 {
-                    var preLogOutUser = this.userInfos.FirstOrDefault(p => p.UserInfoId == userInfoId);
+                    var preLogOutUser = this.userInfos.FirstOrDefault(p => p.NickName == nickName);
 
-                    if (preLogOutUser == null)
+                    if (preLogOutUser != null)
                     {
-                        throw new Exception($"UserInfoId:{userInfoId} Not Exist");
+                        this.userInfos.Remove(preLogOutUser);
                     }
-
-                    this.userInfos.Remove(preLogOutUser);
 
                     return null;
                 }
