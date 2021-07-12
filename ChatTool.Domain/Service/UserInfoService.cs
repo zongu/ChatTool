@@ -9,7 +9,7 @@ namespace ChatTool.Domain.Service
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 登入服務介面
+    /// 會員資訊介面
     /// </summary>
     public class UserInfoService : IUserInfoService
     {

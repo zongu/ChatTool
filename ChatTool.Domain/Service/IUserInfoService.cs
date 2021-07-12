@@ -6,7 +6,7 @@ namespace ChatTool.Domain.Service
     using ChatTool.Domain.Model;
 
     /// <summary>
-    /// 登入服務介面
+    /// 會員資訊介面
     /// </summary>
     public interface IUserInfoService
     {
